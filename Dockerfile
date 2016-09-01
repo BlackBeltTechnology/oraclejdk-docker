@@ -40,4 +40,8 @@ RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates unzip &
     rm -rf "${JAVA_HOME}/"*src.zip && \
     apk del build-dependencies && \
     rm "/tmp/"*
+	
+RUN mkdir -p "/usr/lib/jvm/collectd"
 
+ADD "artifacts/jcollectd.jar" "/usr/lib/jvm/collectd"
+ADD "artifacts/jcollectd-conf.tar.gz" "/usr/lib/jvm/collectd"

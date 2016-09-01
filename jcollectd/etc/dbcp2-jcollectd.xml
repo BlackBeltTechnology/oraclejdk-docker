@@ -1,0 +1,11 @@
+<jcollectd-config>
+    <mbeans name="dbcp2">
+        <mbean name="org.ops4j.pax.jdbc.pool.dbcp2:type=GenericObjectPool,*" alias="GenericObjectPool">
+            <attribute name="NumActive" alias="active"/>
+            <attribute name="NumIdle" alias="idle"/>
+            <attribute name="MaxTotal" alias="max total"/>
+            <attribute name="MaxIdle" alias="max idle"/>
+            <attribute name="NumWaiters" alias="waiters"/>
+        </mbean>
+    </mbeans>
+</jcollectd-config>

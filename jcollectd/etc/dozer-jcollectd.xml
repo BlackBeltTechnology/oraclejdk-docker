@@ -1,0 +1,16 @@
+<jcollectd-config>
+    <mbeans name="dozer">
+        <mbean name="org.dozer.jmx:type=DozerStatisticsController" alias="Cache">
+            <attribute name="CacheHitCount" alias="cache hits"/>
+            <attribute name="CacheMissCount" alias="cache misses"/>
+        </mbean>
+        <mbean name="org.dozer.jmx:type=DozerStatisticsController" alias="FieldMapping">
+            <attribute name="FieldMappingFailureCount" alias="field mapping failures"/>
+            <attribute name="FieldMappingSuccessCount" alias="field mapping success"/>
+        </mbean>
+        <mbean name="org.dozer.jmx:type=DozerStatisticsController" alias="Mapping">
+            <attribute name="MappingFailureCount" alias="mapping failures"/>
+            <attribute name="MappingSuccessCount" alias="mapping success"/>
+        </mbean>
+    </mbeans>
+</jcollectd-config>

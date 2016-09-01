@@ -6,6 +6,30 @@
 PREFIX=${DOCKER_PREFIX:-blackbelt}
 
 CWD=`dirname $0`
+ARTIFACTS_DIR="${CWD}/artifacts"
+
+function check_command {
+    which "$1" > /dev/null 2>&1
+    if [ "$?" -ne 0 ]
+    then
+        echo -e "Command '$1' should be installed and added to PATH"
+        exit 1
+    fi
+}
+
+check_command mvn
+
+mkdir -p "${ARTIFACTS_DIR}"
+
+mvn clean install -f "${CWD}/jcollectd/pom.xml"
+if [ "$?" -ne 0 ]
+then
+    echo "Unable to build JCollectd, check Maven logs"
+	exit 2
+fi
+
+mv ${CWD}/jcollectd/target/jcollectd-*.jar "${ARTIFACTS_DIR}/jcollectd.jar"
+tar cvzf "${ARTIFACTS_DIR}/jcollectd-conf.tar.gz" -C "${CWD}/jcollectd/etc/" .
 
 function build_oracle_jdk {
     JAVA_VERSION="$1"

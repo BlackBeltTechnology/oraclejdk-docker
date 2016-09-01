@@ -1,0 +1,14 @@
+<jcollectd-config>
+    <mbeans name="ehcache">
+        <mbean name="net.sf.ehcache:type=CacheStatistics,CacheManager=__DEFAULT__,*" alias="Objects">
+            <attribute name="ObjectCount" alias="objects"/>
+            <attribute name="DiskStoreObjectCount" alias="DiskStore objects"/>
+            <attribute name="MaxTotal" alias="max total"/>
+            <attribute name="WriterQueueLength" alias="queue length"/>
+        </mbean>
+        <mbean name="net.sf.ehcache:type=CacheStatistics,CacheManager=__DEFAULT__,*" alias="HitsAndMisses">
+            <attribute name="CacheHits" alias="cache hits"/>
+            <attribute name="CacheMisses" alias="cache misses"/>
+        </mbean>
+    </mbeans>
+</jcollectd-config>
