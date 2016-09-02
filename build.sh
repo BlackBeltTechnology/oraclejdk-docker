@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # based on https://hub.docker.com/r/frolvlad/alpine-oraclejdk8/
 #docker build -t $PREFIX/alpine-glibc alpine-glibc
 
@@ -21,14 +23,9 @@ check_command mvn
 
 mkdir -p "${ARTIFACTS_DIR}"
 
-mvn clean install -f "${CWD}/jcollectd/pom.xml"
-if [ "$?" -ne 0 ]
-then
-    echo "Unable to build JCollectd, check Maven logs"
-	exit 2
-fi
+#mvn clean install -f "${CWD}/jcollectd/pom.xml"
 
-mv ${CWD}/jcollectd/target/jcollectd-*.jar "${ARTIFACTS_DIR}/jcollectd.jar"
+cp ${CWD}/jcollectd/target/jcollectd-*.jar "${ARTIFACTS_DIR}/jcollectd.jar"
 tar cvzf "${ARTIFACTS_DIR}/jcollectd-conf.tar.gz" -C "${CWD}/jcollectd/etc/" .
 
 function build_oracle_jdk {
