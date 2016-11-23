@@ -59,5 +59,5 @@ RUN set -e \
     
 RUN mkdir -p "/usr/lib/jvm/collectd"
 
-ADD "artifacts/jcollectd.jar" "/usr/lib/jvm/collectd"
-ADD "artifacts/jcollectd-conf.tar.gz" "/usr/lib/jvm/collectd"
+ADD "artifacts/collectd.jar" "/usr/lib/jvm/collectd"
+ADD "artifacts/collectd-conf.tar.gz" "/usr/lib/jvm/collectd"

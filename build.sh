@@ -12,6 +12,9 @@ MAVEN_COMMAND='mvn'
 MAVEN_MAJOR=3
 MAVEN_VERSION=3.3.9
 
+COLLECTD_BRANCH='develop'
+COLLECTD_SOURCES="https://github.com/BlackBeltTechnology/collectd/archive/develop.zip"
+
 function check_command {
     which "$1" > /dev/null 2>&1
     if [ "$?" -ne 0 ]
@@ -28,12 +31,17 @@ mkdir -p "${ARTIFACTS_DIR}"
 
 set -e
 
-${MAVEN_COMMAND} clean install -Dmaven.test.skip=true -f "${CWD}/jcollectd/pom.xml"
+wget -O "${CWD}/collectd.zip" "${COLLECTD_SOURCES}"
 
+rm -Rf "${CWD}/collectd-${COLLECTD_BRANCH}"/
+unzip "${CWD}/collectd.zip" -d "${CWD}"
+rm -f "${CWD}/collectd.zip"
+
+${MAVEN_COMMAND} clean install -Dmaven.test.skip=true -f "${CWD}/collectd-${COLLECTD_BRANCH}/pom.xml"
 rm -Rf /tmp/apache-maven*
 
-cp ${CWD}/jcollectd/target/jcollectd-*.jar "${ARTIFACTS_DIR}/jcollectd.jar"
-tar cvzf "${ARTIFACTS_DIR}/jcollectd-conf.tar.gz" -C "${CWD}/jcollectd/etc/" .
+cp ${CWD}/collectd-${COLLECTD_BRANCH}/collectd-jmx-agent/target/collectd-*-jar-with-dependencies.jar "${ARTIFACTS_DIR}/collectd.jar"
+tar cvzf "${ARTIFACTS_DIR}/collectd-conf.tar.gz" -C "${CWD}/collectd-${COLLECTD_BRANCH}/collectd-jmx-agent/src/main/config/" .
 
 function build_oracle_jdk {
     JAVA_VERSION="$1"
