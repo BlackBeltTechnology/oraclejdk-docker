@@ -5,6 +5,7 @@ MAINTAINER József Börcsök "jozsef.borcsok@blackbelt.hu"
 ARG JAVA_VERSION="8"
 ARG JAVA_UPDATE
 ARG JAVA_BUILD
+ARG RND
 ARG JAVA_HOME="/usr/lib/jvm/default"
 ARG JAVA_PACKAGE="server-jre"
 
@@ -16,7 +17,7 @@ USER root
 
 RUN set -e \
     && apk add --no-cache --virtual=build-dependencies wget ca-certificates \
-    && wget -O "/tmp/${TGZ_FILE_NAME}" --header "Cookie: oraclelicense=accept-securebackup-cookie;" "http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION}u${JAVA_UPDATE}-b${JAVA_BUILD}/${TGZ_FILE_NAME}" \
+    && wget -O "/tmp/${TGZ_FILE_NAME}" --header "Cookie: oraclelicense=accept-securebackup-cookie;" "http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION}u${JAVA_UPDATE}-b${JAVA_BUILD}/${RND}/${TGZ_FILE_NAME}" \
     && if [ "x7" == "x${JAVA_VERSION}" ]; then \
         wget -O "/tmp/jce-policy.zip" --header "Cookie: oraclelicense=accept-securebackup-cookie;" "http://download.oracle.com/otn-pub/java/jce/7/UnlimitedJCEPolicyJDK7.zip" \
         && EXPECTED_CHECKSUM_MD5=`echo "<tr><td>server-jre-7u80-linux-x64.tar.gz</td><td>366a145fb3a185264b51555546ce2f87</td></tr>" | sed s/'<\/td><td>'/#/g | sed s/'<\/\?[0-9a-zA-Z]*>'//g | cut -d'#' -f 2` \
