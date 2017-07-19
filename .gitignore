@@ -1,2 +1,1 @@
-artifacts/
-collectd-*/
+artifacts/*.jar

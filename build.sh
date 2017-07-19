@@ -8,40 +8,16 @@ PREFIX=${DOCKER_PREFIX:-blackbelt}
 CWD=`dirname $0`
 ARTIFACTS_DIR="${CWD}/artifacts"
 
-MAVEN_COMMAND='mvn'
-MAVEN_MAJOR=3
-MAVEN_VERSION=3.3.9
-
-COLLECTD_VERSION='1.0.0'
+COLLECTD_VERSION='1.0.1'
 COLLECTD_SOURCES="https://github.com/BlackBeltTechnology/collectd/archive/${COLLECTD_VERSION}.zip"
-
-function check_command {
-    which "$1" > /dev/null 2>&1
-    if [ "$?" -ne 0 ]
-    then
-        wget -O /tmp/apache-maven.tar.gz https://www.apache.org/dist/maven/maven-${MAVEN_MAJOR}/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
-        tar xf /tmp/apache-maven.tar.gz -C /tmp
-        MAVEN_COMMAND="`ls -ad /tmp/apache-maven*/`bin/mvn"
-    fi
-}
-
-check_command mvn
+COLLECTD_URL_BASE='https://repo.maven.apache.org/maven2'
+COLLECTD_URL="${COLLECTD_URL_BASE}/hu/blackbelt/collectd-jmx-agent/${COLLECTD_VERSION}/collectd-jmx-agent-${COLLECTD_VERSION}-jar-with-dependencies.jar"
 
 mkdir -p "${ARTIFACTS_DIR}"
 
 set -e
 
-wget -O "${CWD}/collectd.zip" "${COLLECTD_SOURCES}"
-
-rm -Rf "${CWD}/collectd-${COLLECTD_VERSION}"/
-unzip "${CWD}/collectd.zip" -d "${CWD}"
-rm -f "${CWD}/collectd.zip"
-
-${MAVEN_COMMAND} clean install -Dmaven.test.skip=true -f "${CWD}/collectd-${COLLECTD_VERSION}/pom.xml"
-rm -Rf /tmp/apache-maven*
-
-cp ${CWD}/collectd-${COLLECTD_VERSION}/collectd-jmx-agent/target/collectd-*-jar-with-dependencies.jar "${ARTIFACTS_DIR}/collectd.jar"
-tar cvzf "${ARTIFACTS_DIR}/collectd-conf.tar.gz" -C "${CWD}/collectd-${COLLECTD_VERSION}/collectd-jmx-agent/src/main/config/" .
+wget -O "${ARTIFACTS_DIR}/collectd.jar" "${COLLECTD_URL}"
 
 function build_oracle_jdk {
     JAVA_VERSION="$1"
