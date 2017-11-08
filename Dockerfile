@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-glibc:alpine-3.4
+FROM frolvlad/alpine-glibc:alpine-3.6
 MAINTAINER József Börcsök "jozsef.borcsok@blackbelt.hu"
 
 # JAVA_PACKAGE can be: jdk or server-jre
